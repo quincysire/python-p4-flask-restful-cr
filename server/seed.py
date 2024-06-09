@@ -1,23 +1,22 @@
 #!/usr/bin/env python3
 
-from faker import Faker
-
-from app import app
-from models import db, Newsletter
+from app import app, db
+from models import Plant
 
 with app.app_context():
-    
-    fake = Faker()
+    Plant.query.delete()
 
-    Newsletter.query.delete()
+    aloe = Plant(
+        name="Aloe",
+        image="./images/aloe.jpg",
+        price=11.50,
+    )
 
-    newsletters = []
-    for i in range(50):
-        newsletter = Newsletter(
-            title = fake.text(max_nb_chars=20),
-            body = fake.paragraph(nb_sentences=5),
-        )
-        newsletters.append(newsletter)
+    zz_plant = Plant(
+        name="ZZ Plant",
+        image="./images/zz-plant.jpg",
+        price=25.98,
+    )
 
-    db.session.add_all(newsletters)
+    db.session.add_all([aloe, zz_plant])
     db.session.commit()
